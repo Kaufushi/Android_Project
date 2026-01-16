@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Settings"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:padding="16dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Default Duration (hours)"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/et_default_duration"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enter default duration"
+        android:inputType="number"/>
+
+    <TextView
+        android:id="@+id/tv_default_difficulty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Default Difficulty: 5"
+        android:textStyle="bold"
+        android:layout_marginTop="24dp"/>
+
+    <SeekBar
+        android:id="@+id/sb_default_difficulty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:max="10" />
+
+    <Button
+        android:id="@+id/btn_save_settings"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save Settings"
+        android:layout_marginTop="32dp"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="24dp"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Content Provider Testing"
+        android:textStyle="bold"
+        android:gravity="center"
+        android:layout_marginBottom="8dp"/>
+
+    <Button
+        android:id="@+id/btn_test_provider"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Test Insert &amp; Query via Provider"/>
+
+</LinearLayout>

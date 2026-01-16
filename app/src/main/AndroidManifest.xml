@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.hua.it2023105.myapplication">
+
+    <queries>
+        <package android:name="com.google.android.apps.maps" />
+    </queries>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"
+        android:maxSdkVersion="28"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="Task Manager"
+        android:supportsRtl="true"
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar"
+        android:requestLegacyExternalStorage="true">
+
+        <!-- Main Activity -->
+        <activity
+            android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <!-- Create Task Activity -->
+        <activity
+            android:name=".CreateTaskActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <!-- Task Detail Activity -->
+        <activity
+            android:name=".TaskDetailActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <!-- Settings Activity -->
+        <activity
+            android:name=".SettingsActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <!-- Export Activity -->
+        <activity
+            android:name=".ExportActivity"
+            android:parentActivityName=".MainActivity"/>
+
+        <!-- Task Update Service -->
+        <service
+            android:name=".service.TaskUpdateService"
+            android:enabled="true"
+            android:exported="false"/>
+
+        <!-- Content Provider -->
+        <provider
+            android:name=".provider.TaskContentProvider"
+            android:authorities="com.example.taskmanager.provider"
+            android:enabled="true"
+            android:exported="true"/>
+
+    </application>
+
+</manifest>
