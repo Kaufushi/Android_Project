@@ -1,6 +1,5 @@
 package com.hua.it2023105.myapplication;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
@@ -12,10 +11,12 @@ import com.hua.it2023105.myapplication.adapter.TaskAdapter;
 import com.hua.it2023105.myapplication.database.AppDatabase;
 import com.hua.it2023105.myapplication.database.Task;
 import com.hua.it2023105.myapplication.database.TaskStatus;
-import com.hua.it2023105.myapplication.service. TaskUpdateService;
+import com.hua.it2023105.myapplication.service.TaskUpdateService;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Executors;
 
 public class MainActivity extends AppCompatActivity {
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
     private TaskAdapter adapter;
     private AppDatabase database;
     private List<Task> taskList;
+    private Map<Integer, String> statusMap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +34,12 @@ public class MainActivity extends AppCompatActivity {
 
         database = AppDatabase.getInstance(this);
         taskList = new ArrayList<>();
+        statusMap = new HashMap<>();
 
         recyclerView = findViewById(R.id.recyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new TaskAdapter(taskList, this::onTaskClick);
+        adapter = new TaskAdapter(taskList, this::onTaskClick, statusMap);
         recyclerView.setAdapter(adapter);
 
         FloatingActionButton fab = findViewById(R.id.fab_add);
@@ -60,15 +63,24 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadTasks() {
         Executors.newSingleThreadExecutor().execute(() -> {
-            int completedId = database.taskStatusDao().getStatusIdByName(TaskStatus.COMPLETED);
-            int expiredId = database.taskStatusDao().getStatusIdByName(TaskStatus.EXPIRED);
-            int inProgressId = database.taskStatusDao().getStatusIdByName(TaskStatus.IN_PROGRESS);
+            // Load status map once
             int recordedId = database.taskStatusDao().getStatusIdByName(TaskStatus.RECORDED);
+            int inProgressId = database.taskStatusDao().getStatusIdByName(TaskStatus.IN_PROGRESS);
+            int expiredId = database.taskStatusDao().getStatusIdByName(TaskStatus.EXPIRED);
+            int completedId = database.taskStatusDao().getStatusIdByName(TaskStatus.COMPLETED);
+
+            Map<Integer, String> newStatusMap = new HashMap<>();
+            newStatusMap.put(recordedId, "Recorded");
+            newStatusMap.put(inProgressId, "In Progress");
+            newStatusMap.put(expiredId, "Expired");
+            newStatusMap.put(completedId, "Completed");
 
             List<Task> tasks = database.taskDao().getAllNonCompletedTasksOrdered(
                     completedId, expiredId, inProgressId, recordedId);
 
             runOnUiThread(() -> {
+                statusMap.clear();
+                statusMap.putAll(newStatusMap);
                 taskList.clear();
                 taskList.addAll(tasks);
                 adapter.notifyDataSetChanged();
